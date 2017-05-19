@@ -20,12 +20,16 @@ public:
     uint *getRulev(){ return m_nRule; }
     uint getWidth(){ return m_nWidth; }
     uint getHeight(){ return m_nHeight; }
+    uint getTao(){ return m_nTao; }
+    Function getFunction(){ return m_Function; }
     double getPercent(){ return m_nPercent; }
 
     void setRule(QString);
     void setRule(uint, uint, uint, uint);
     void setWidth(uint w){ m_nWidth = w; }
     void setHeight(uint h){ m_nHeight = h; }
+    void setTao(uint t){ m_nTao = t; }
+    void setFunction(Function f){ m_Function = f; }
     void setPercent(double p){ m_nPercent = p; }
 
     void play();
@@ -51,6 +55,8 @@ private:
     uint m_nRule[4]; // [c, d, a, b]
     uint m_nWidth;
     uint m_nHeight;
+    uint m_nTao;
+    Function m_Function;
     double m_nPercent;
     bool **m_Matrix;
 

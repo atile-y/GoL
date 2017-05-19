@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     gl->setRule(ui->ruleLineEdit->text());
     gl->setWidth(ui->widthLineEdit->text().toUInt());
     gl->setHeight(ui->heightLineEdit->text().toUInt());
+    gl->setTao(ui->taoLineEdit->text().toUInt());
     gl->setPercent(per);
 
     setFixedSize(geometry().width(), geometry().height());
@@ -87,6 +88,47 @@ void MainWindow::on_heightLineEdit_editingFinished(){
         return;
 
     gl->setHeight(str.toUInt());
+}
+
+void MainWindow::on_taoLineEdit_editingFinished(){
+    int pos = 0;
+    QString str = ui->taoLineEdit->text();
+
+    QIntValidator *v = new QIntValidator(2, 20, this);
+
+    if( v->validate(str, pos) != QValidator::Acceptable ){
+        ui->taoLineEdit->setText(QString::number(gl->getTao()));
+        return;
+    }
+    if( gl->getTao() == str.toUInt() )
+        return;
+
+    gl->setTao(str.toUInt());
+}
+
+void MainWindow::on_functionComboBox_currentIndexChanged(int index){
+    switch(index){
+    case 0:
+        if( gl->getFunction() == Function::MAX )
+            return;
+        gl->setFunction(Function::MAX);
+        break;
+
+    case 1:
+        if( gl->getFunction() == Function::MIN )
+            return;
+        gl->setFunction(Function::MIN);
+        break;
+
+    case 2:
+        if( gl->getFunction() == Function::PAR )
+            return;
+        gl->setFunction(Function::PAR);
+        break;
+
+    default:
+        return;
+    }
 }
 
 void MainWindow::on_percentLineEdit_editingFinished(){

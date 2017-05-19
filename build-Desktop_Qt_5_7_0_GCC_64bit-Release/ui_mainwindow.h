@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -40,6 +41,10 @@ public:
     QLabel *percentLabel;
     QLineEdit *percentLineEdit;
     QSlider *percentHorizontalSlider;
+    QLabel *taoLabel;
+    QLineEdit *taoLineEdit;
+    QComboBox *functionComboBox;
+    QLabel *functionLabel;
     QPushButton *stopPushButton;
     QPushButton *pausePushButton;
     QPushButton *playPushButton;
@@ -50,7 +55,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(301, 291);
+        MainWindow->resize(301, 341);
         QFont font;
         font.setPointSize(12);
         MainWindow->setFont(font);
@@ -58,7 +63,7 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         formLayoutWidget = new QWidget(centralWidget);
         formLayoutWidget->setObjectName(QStringLiteral("formLayoutWidget"));
-        formLayoutWidget->setGeometry(QRect(20, 20, 261, 161));
+        formLayoutWidget->setGeometry(QRect(20, 20, 261, 221));
         formLayout = new QFormLayout(formLayoutWidget);
         formLayout->setSpacing(6);
         formLayout->setContentsMargins(11, 11, 11, 11);
@@ -97,12 +102,12 @@ public:
         percentLabel = new QLabel(formLayoutWidget);
         percentLabel->setObjectName(QStringLiteral("percentLabel"));
 
-        formLayout->setWidget(3, QFormLayout::LabelRole, percentLabel);
+        formLayout->setWidget(5, QFormLayout::LabelRole, percentLabel);
 
         percentLineEdit = new QLineEdit(formLayoutWidget);
         percentLineEdit->setObjectName(QStringLiteral("percentLineEdit"));
 
-        formLayout->setWidget(3, QFormLayout::FieldRole, percentLineEdit);
+        formLayout->setWidget(5, QFormLayout::FieldRole, percentLineEdit);
 
         percentHorizontalSlider = new QSlider(formLayoutWidget);
         percentHorizontalSlider->setObjectName(QStringLiteral("percentHorizontalSlider"));
@@ -113,12 +118,32 @@ public:
         percentHorizontalSlider->setOrientation(Qt::Horizontal);
         percentHorizontalSlider->setInvertedControls(true);
 
-        formLayout->setWidget(4, QFormLayout::SpanningRole, percentHorizontalSlider);
+        formLayout->setWidget(6, QFormLayout::SpanningRole, percentHorizontalSlider);
+
+        taoLabel = new QLabel(formLayoutWidget);
+        taoLabel->setObjectName(QStringLiteral("taoLabel"));
+
+        formLayout->setWidget(3, QFormLayout::LabelRole, taoLabel);
+
+        taoLineEdit = new QLineEdit(formLayoutWidget);
+        taoLineEdit->setObjectName(QStringLiteral("taoLineEdit"));
+
+        formLayout->setWidget(3, QFormLayout::FieldRole, taoLineEdit);
+
+        functionComboBox = new QComboBox(formLayoutWidget);
+        functionComboBox->setObjectName(QStringLiteral("functionComboBox"));
+
+        formLayout->setWidget(4, QFormLayout::FieldRole, functionComboBox);
+
+        functionLabel = new QLabel(formLayoutWidget);
+        functionLabel->setObjectName(QStringLiteral("functionLabel"));
+
+        formLayout->setWidget(4, QFormLayout::LabelRole, functionLabel);
 
         stopPushButton = new QPushButton(centralWidget);
         stopPushButton->setObjectName(QStringLiteral("stopPushButton"));
         stopPushButton->setEnabled(false);
-        stopPushButton->setGeometry(QRect(60, 190, 32, 32));
+        stopPushButton->setGeometry(QRect(60, 250, 32, 32));
         stopPushButton->setCursor(QCursor(Qt::PointingHandCursor));
         QIcon icon;
         icon.addFile(QStringLiteral(":/images/stop.png"), QSize(), QIcon::Normal, QIcon::Off);
@@ -128,7 +153,7 @@ public:
         pausePushButton = new QPushButton(centralWidget);
         pausePushButton->setObjectName(QStringLiteral("pausePushButton"));
         pausePushButton->setEnabled(false);
-        pausePushButton->setGeometry(QRect(130, 190, 32, 32));
+        pausePushButton->setGeometry(QRect(130, 250, 32, 32));
         pausePushButton->setCursor(QCursor(Qt::PointingHandCursor));
         QIcon icon1;
         icon1.addFile(QStringLiteral(":/images/pause.png"), QSize(), QIcon::Normal, QIcon::Off);
@@ -137,7 +162,7 @@ public:
         pausePushButton->setFlat(true);
         playPushButton = new QPushButton(centralWidget);
         playPushButton->setObjectName(QStringLiteral("playPushButton"));
-        playPushButton->setGeometry(QRect(200, 190, 32, 32));
+        playPushButton->setGeometry(QRect(200, 250, 32, 32));
         playPushButton->setCursor(QCursor(Qt::PointingHandCursor));
         QIcon icon2;
         icon2.addFile(QStringLiteral(":/images/play.png"), QSize(), QIcon::Normal, QIcon::Off);
@@ -147,7 +172,7 @@ public:
         delayHorizontalSlider = new QSlider(centralWidget);
         delayHorizontalSlider->setObjectName(QStringLiteral("delayHorizontalSlider"));
         delayHorizontalSlider->setEnabled(false);
-        delayHorizontalSlider->setGeometry(QRect(20, 230, 261, 21));
+        delayHorizontalSlider->setGeometry(QRect(20, 290, 261, 21));
         delayHorizontalSlider->setMaximum(200);
         delayHorizontalSlider->setValue(100);
         delayHorizontalSlider->setOrientation(Qt::Horizontal);
@@ -172,6 +197,15 @@ public:
         heightLineEdit->setText(QApplication::translate("MainWindow", "100", 0));
         percentLabel->setText(QApplication::translate("MainWindow", "Porcentaje 1's", 0));
         percentLineEdit->setText(QApplication::translate("MainWindow", "50", 0));
+        taoLabel->setText(QApplication::translate("MainWindow", "Tao", 0));
+        taoLineEdit->setText(QApplication::translate("MainWindow", "3", 0));
+        functionComboBox->clear();
+        functionComboBox->insertItems(0, QStringList()
+         << QApplication::translate("MainWindow", "Mayor\303\255a", 0)
+         << QApplication::translate("MainWindow", "Minor\303\255a", 0)
+         << QApplication::translate("MainWindow", "Paridad", 0)
+        );
+        functionLabel->setText(QApplication::translate("MainWindow", "Funci\303\263n", 0));
         stopPushButton->setText(QString());
         pausePushButton->setText(QString());
         playPushButton->setText(QString());

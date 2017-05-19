@@ -29,8 +29,11 @@ GLWidget::~GLWidget(){
         delete children()[0];
 
     if( m_Matrix != NULL ){
-        for(uint i=0;i<m_nHeight;i++)
-            delete m_Matrix[i];
+        for(uint i=0;i<m_nHeight;i++){
+            if( m_Matrix[i] != NULL ){
+                delete m_Matrix[i];
+            }
+        }
         delete m_Matrix;
     }
 
@@ -96,7 +99,7 @@ void GLWidget::play(){
         m_bFirstDisplay = true;
 
         m_Thread = new QThread;
-        m_Work = new Worker(m_nRule, m_nWidth, m_nHeight, m_nPercent);
+        m_Work = new Worker(m_nRule, m_nWidth, m_nHeight, m_nTao, m_Function, m_nPercent);
         m_Work->moveToThread(m_Thread);
 
         connect(this, SIGNAL(evolve()), m_Work, SLOT(evolve()));

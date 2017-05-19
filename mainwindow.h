@@ -25,6 +25,8 @@ private slots:
     void on_ruleLineEdit_editingFinished();
     void on_widthLineEdit_editingFinished();
     void on_heightLineEdit_editingFinished();
+    void on_taoLineEdit_editingFinished();
+    void on_functionComboBox_currentIndexChanged(int);
     void on_percentLineEdit_editingFinished();
     void on_percentHorizontalSlider_valueChanged(int);
     void on_stopPushButton_clicked();
