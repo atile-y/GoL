@@ -9,6 +9,7 @@
 using namespace std;
 
 Worker::Worker(uint *r, uint w, uint h, uint t, Function f, double p){
+    qInfo() << "Worker constructor begin";
     for(int i=0;i<4;i++)
         m_nRule[i] = r[i];
     m_nWidth = w;
@@ -44,6 +45,7 @@ Worker::Worker(uint *r, uint w, uint h, uint t, Function f, double p){
         while( m_vMatrix.at(0)[i][j] );
         m_vMatrix.at(0)[i][j] = true;
     }
+    qInfo() << "Worker constructor end";
 }
 
 Worker::~Worker(){
@@ -73,6 +75,7 @@ void Worker::evolve(){
     time.start();
 
     if( ((uint)m_vMatrix.size()) < m_nTao ){
+        qInfo() << "Normal";
         for(uint i=0;i<m_nHeight;i++){
             for(uint j=0;j<m_nWidth;j++){
                 suma = 0;

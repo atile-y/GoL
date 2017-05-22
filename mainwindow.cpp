@@ -165,6 +165,8 @@ void MainWindow::on_stopPushButton_clicked(){
     ui->ruleLineEdit->setEnabled(true);
     ui->widthLineEdit->setEnabled(true);
     ui->heightLineEdit->setEnabled(true);
+    ui->taoLineEdit->setEnabled(true);
+    ui->functionComboBox->setEnabled(true);
     ui->percentLineEdit->setEnabled(true);
     ui->percentHorizontalSlider->setEnabled(true);
 
@@ -194,6 +196,8 @@ void MainWindow::on_playPushButton_clicked(){
     ui->ruleLineEdit->setEnabled(false);
     ui->widthLineEdit->setEnabled(false);
     ui->heightLineEdit->setEnabled(false);
+    ui->taoLineEdit->setEnabled(false);
+    ui->functionComboBox->setEnabled(false);
     ui->percentLineEdit->setEnabled(false);
     ui->percentHorizontalSlider->setEnabled(false);
 

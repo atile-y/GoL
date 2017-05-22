@@ -268,6 +268,19 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>ruleLineEdit</tabstop>
+  <tabstop>widthLineEdit</tabstop>
+  <tabstop>heightLineEdit</tabstop>
+  <tabstop>taoLineEdit</tabstop>
+  <tabstop>functionComboBox</tabstop>
+  <tabstop>percentLineEdit</tabstop>
+  <tabstop>percentHorizontalSlider</tabstop>
+  <tabstop>stopPushButton</tabstop>
+  <tabstop>pausePushButton</tabstop>
+  <tabstop>playPushButton</tabstop>
+  <tabstop>delayHorizontalSlider</tabstop>
+ </tabstops>
  <resources>
   <include location="resources.qrc"/>
  </resources>

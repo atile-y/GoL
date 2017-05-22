@@ -180,6 +180,16 @@ public:
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MainWindow->setStatusBar(statusBar);
+        QWidget::setTabOrder(ruleLineEdit, widthLineEdit);
+        QWidget::setTabOrder(widthLineEdit, heightLineEdit);
+        QWidget::setTabOrder(heightLineEdit, taoLineEdit);
+        QWidget::setTabOrder(taoLineEdit, functionComboBox);
+        QWidget::setTabOrder(functionComboBox, percentLineEdit);
+        QWidget::setTabOrder(percentLineEdit, percentHorizontalSlider);
+        QWidget::setTabOrder(percentHorizontalSlider, stopPushButton);
+        QWidget::setTabOrder(stopPushButton, pausePushButton);
+        QWidget::setTabOrder(pausePushButton, playPushButton);
+        QWidget::setTabOrder(playPushButton, delayHorizontalSlider);
 
         retranslateUi(MainWindow);
 
