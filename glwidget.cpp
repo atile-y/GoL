@@ -14,7 +14,8 @@ GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent){
 
     m_nState = STOP;
     m_Work = NULL;
-    m_Thread = NULL;
+    m_Thread = new QThread;
+    m_Thread->start();
     m_bFirstDisplay = false;
     m_Matrix = NULL;
 
@@ -29,17 +30,24 @@ GLWidget::~GLWidget(){
         delete children()[0];
 
     if( m_Matrix != NULL ){
-        for(uint i=0;i<m_nHeight;i++)
-            delete m_Matrix[i];
+        for(uint i=0;i<m_nHeight;i++){
+            if( m_Matrix[i] != NULL ){
+                delete m_Matrix[i];
+            }
+        }
         delete m_Matrix;
     }
 
     if( m_Thread != NULL ){
-        m_Thread->quit();
-        m_Thread->wait();
+        m_Thread->terminate();
+        if( !m_Thread->wait(1000) )
+            qInfo() << "Timeout";
         delete m_Thread;
-        if( m_Work != NULL )
+        m_Thread = NULL;
+        if( m_Work != NULL ){
             delete m_Work;
+            m_Work = NULL;
+        }
     }
     qInfo() << "GLWidget Destructor end";
 }
@@ -95,14 +103,14 @@ void GLWidget::play(){
         reset();
         m_bFirstDisplay = true;
 
-        m_Thread = new QThread;
+        if( m_Work != NULL )
+            delete m_Work;
+
         m_Work = new Worker(m_nRule, m_nWidth, m_nHeight, m_nPercent);
         m_Work->moveToThread(m_Thread);
 
         connect(this, SIGNAL(evolve()), m_Work, SLOT(evolve()));
         connect(m_Work, SIGNAL(update(bool**)), this, SLOT(updateMatrix(bool**)));
-
-        m_Thread->start();
 
         m_Matrix = new bool*[m_nHeight];
         for(uint i=0;i<m_nHeight;i++){
@@ -121,16 +129,6 @@ void GLWidget::pause(){
 }
 
 void GLWidget::reset(){
-    if( m_Thread != NULL ){
-        m_Thread->quit();
-        m_Thread->wait();
-        delete m_Thread;
-        if( m_Work != NULL ){
-            delete m_Work;
-            m_Work = NULL;
-        }
-    }
-
     m_nState = STOP;
 }
 
@@ -157,6 +155,12 @@ void GLWidget::updateMatrix(bool **matrix){
     update();
     if( m_nState == PLAY )
         emit evolve();
+    else if( m_nState == STOP ){
+        if( m_Work != NULL ){
+            delete m_Work;
+            m_Work = NULL;
+        }
+    }
 }
 
 void GLWidget::initializeGL(){
