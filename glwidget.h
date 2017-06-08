@@ -46,6 +46,10 @@ protected:
     void resizeGL(int, int);
     void paintGL();
 
+    void mouseMoveEvent(QMouseEvent *);
+    void mousePressEvent(QMouseEvent *);
+    void mouseReleaseEvent(QMouseEvent *);
+
 private:
     QString m_strRule; // B<a><b>/S<c><d>
     uint m_nRule[4]; // [c, d, a, b]
@@ -56,6 +60,8 @@ private:
 
     ushort m_nState;
     bool m_bFirstDisplay;
+    GLdouble m_nLeft, m_nRight, m_nBot, m_nTop;
+    int m_nClick;
     Worker *m_Work;
     QThread *m_Thread;
 };

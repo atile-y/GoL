@@ -1,6 +1,7 @@
 #include "glwidget.h"
 
 #include <QDebug>
+#include <QMouseEvent>
 #include <QTimer>
 #include <GL/glu.h>
 
@@ -17,6 +18,7 @@ GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent){
     m_Thread = new QThread;
     m_Thread->start();
     m_bFirstDisplay = false;
+    m_nClick = -1;
     m_Matrix = NULL;
 
     QTimer *timer = new QTimer(this);
@@ -171,60 +173,58 @@ void GLWidget::initializeGL(){
 
 void GLWidget::resizeGL(int w, int h){
     double hp = w*m_nHeight / ((double)m_nWidth);
-    GLdouble left, right, bot, top;
 
     if( hp <= h ){
-        left = 0.0;
-        right = m_nWidth;
-        bot = -h*((double)m_nWidth) / w;
-        top = (bot + m_nHeight) / -2.0;
-        bot += top;
+        m_nLeft = 0.0;
+        m_nRight = m_nWidth;
+        m_nBot = -h*((double)m_nWidth) / w;
+        m_nTop = (m_nBot + m_nHeight) / -2.0;
+        m_nBot += m_nTop;
     }
     else{
-        right = w*m_nHeight / ((double)h);
-        left = (right - m_nWidth) / -2.0;
-        right += left;
-        bot = -((double)m_nHeight);
-        top = 0.0;
+        m_nRight = w*m_nHeight / ((double)h);
+        m_nLeft = (m_nRight - m_nWidth) / -2.0;
+        m_nRight += m_nLeft;
+        m_nBot = -((double)m_nHeight);
+        m_nTop = 0.0;
     }
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluOrtho2D(left, right, bot, top);
+    gluOrtho2D(m_nLeft, m_nRight, m_nBot, m_nTop);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    gluLookAt((right+left)/2, (top+bot)/2, 10, (right+left)/2, (top+bot)/2, 0, 0, 1, 0);
+    gluLookAt((m_nRight+m_nLeft)/2, (m_nTop+m_nBot)/2, 10, (m_nRight+m_nLeft)/2, (m_nTop+m_nBot)/2, 0, 0, 1, 0);
 }
 
 void GLWidget::paintGL(){
     if( m_bFirstDisplay ){
         int w = this->width(), h = this->height();
         double hp = w*m_nHeight / ((double)m_nWidth);
-        GLdouble left, right, bot, top;
 
         if( hp <= h ){
-            left = 0.0;
-            right = m_nWidth;
-            bot = -h*((double)m_nWidth) / w;
-            top = (bot + m_nHeight) / -2.0;
-            bot += top;
+            m_nLeft = 0.0;
+            m_nRight = m_nWidth;
+            m_nBot = -h*((double)m_nWidth) / w;
+            m_nTop = (m_nBot + m_nHeight) / -2.0;
+            m_nBot += m_nTop;
         }
         else{
-            right = w*m_nHeight / ((double)h);
-            left = (right - m_nWidth) / -2.0;
-            right += left;
-            bot = -((double)m_nHeight);
-            top = 0.0;
+            m_nRight = w*m_nHeight / ((double)h);
+            m_nLeft = (m_nRight - m_nWidth) / -2.0;
+            m_nRight += m_nLeft;
+            m_nBot = -((double)m_nHeight);
+            m_nTop = 0.0;
         }
 
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        gluOrtho2D(left, right, bot, top);
+        gluOrtho2D(m_nLeft, m_nRight, m_nBot, m_nTop);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 
-        gluLookAt((right+left)/2, (top+bot)/2, 10, (right+left)/2, (top+bot)/2, 0, 0, 1, 0);
+        gluLookAt((m_nRight+m_nLeft)/2, (m_nTop+m_nBot)/2, 10, (m_nRight+m_nLeft)/2, (m_nTop+m_nBot)/2, 0, 0, 1, 0);
         m_bFirstDisplay = false;
     }
 
@@ -247,4 +247,40 @@ void GLWidget::paintGL(){
                 glEnd();
             }
     }
+}
+
+void GLWidget::mouseMoveEvent(QMouseEvent *event){
+    if( m_nClick == -1 )
+        return;
+
+    QPointF p = event->windowPos();
+    QPointF q(p.x()*(m_nRight-m_nLeft)/width() + m_nLeft, p.y()*(m_nTop-m_nBot)/height() - m_nTop);
+    if( q.x() < 0 || q.y() < 0 || q.x() >= (int)m_nWidth || q.y() >= (int)m_nHeight )
+        return;
+
+    int i = q.y(), j = q.x();
+    m_Matrix[i][j] = m_nClick;
+    m_Work->setCell(i, j, m_nClick);
+}
+
+void GLWidget::mousePressEvent(QMouseEvent *event){
+    if( event->button() != Qt::LeftButton )
+        return;
+
+    QPointF p = event->windowPos();
+    QPointF q(p.x()*(m_nRight-m_nLeft)/width() + m_nLeft, p.y()*(m_nTop-m_nBot)/height() - m_nTop);
+    if( q.x() < 0 || q.y() < 0 || q.x() >= (int)m_nWidth || q.y() >= (int)m_nHeight )
+        return;
+
+    int i = q.y(), j = q.x();
+    m_nClick = m_Matrix[i][j]?0:1;
+    m_Matrix[i][j] = m_nClick;
+    m_Work->setCell(i, j, m_nClick);
+}
+
+void GLWidget::mouseReleaseEvent(QMouseEvent *event){
+    if( event->button() != Qt::LeftButton )
+        return;
+
+    m_nClick = -1;
 }

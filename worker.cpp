@@ -49,6 +49,13 @@ Worker::~Worker(){
     qInfo() << "Worker destructor end";
 }
 
+void Worker::setCell(uint i, uint j, bool v){
+    if( i >= m_nHeight || j >= m_nWidth )
+        return;
+
+    m_Matrix[i][j] = v;
+}
+
 void Worker::evolve(){
     int suma;
     int di[] = {-1, -1, -1, 0, 1, 1, 1, 0};
