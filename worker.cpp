@@ -26,6 +26,19 @@ Worker::Worker(uint *r, uint w, uint h, uint t, Function f, double p){
     }
     m_vMatrix.append(a);
 
+    /*
+     * ESTATICO
+    int x = m_nWidth/2;
+    int y = m_nHeight/2;
+    m_vMatrix.at(0)[y][x] = true;
+    m_vMatrix.at(0)[y][x-1] = true;
+    m_vMatrix.at(0)[y][x+1] = true;
+    m_vMatrix.at(0)[y+2][x] = true;
+    //*/
+
+    /*
+     * RANDOM
+     * */
     unsigned seed = chrono::system_clock::now().time_since_epoch().count();
     default_random_engine generator(seed);
     uniform_int_distribution<uint> distJ(0, m_nWidth-1);
@@ -45,7 +58,18 @@ Worker::Worker(uint *r, uint w, uint h, uint t, Function f, double p){
         while( m_vMatrix.at(0)[i][j] );
         m_vMatrix.at(0)[i][j] = true;
     }
+    //*/
+
     qInfo() << "Worker constructor end";
+    /*
+     * IMPRIME
+    for(uint i=0;i<m_nHeight;i++){
+        QString str = "";
+        for(uint j=0;j<m_nWidth;j++)
+            str += (m_vMatrix.at(0)[i][j]?"1":"0");
+        qInfo() << str;
+    }
+    //*/
 }
 
 Worker::~Worker(){
@@ -59,6 +83,13 @@ Worker::~Worker(){
     }
     m_vMatrix.clear();
     qInfo() << "Worker destructor end";
+}
+
+void Worker::setCell(uint i, uint j, bool v){
+    if( i >= m_nHeight || j >= m_nWidth )
+        return;
+
+    m_vMatrix.last()[i][j] = v;
 }
 
 void Worker::evolve(){
@@ -75,7 +106,6 @@ void Worker::evolve(){
     time.start();
 
     if( ((uint)m_vMatrix.size()) < m_nTao ){
-        qInfo() << "Normal";
         for(uint i=0;i<m_nHeight;i++){
             for(uint j=0;j<m_nWidth;j++){
                 suma = 0;
@@ -103,8 +133,10 @@ void Worker::evolve(){
                 mat[i][j] = rule(inter[i][j], suma);
             }
         }
+        delete[] inter;
 
         m_vMatrix.append(mat);
+        delete[] m_vMatrix.first();
         m_vMatrix.pop_front();
     }
 
@@ -143,9 +175,13 @@ bool Worker::func(uint i, uint j){
         return ones < zeros;
 
     case Function::PAR:
-        return ones%2;
+        if( m_nTao%2 == 0 )
+            return ones%2 == 0;
+        else
+            return m_vMatrix.at(m_nTao-1)[i][j] == m_vMatrix.at(m_nTao-2)[i][j];
 
     default:
+        qInfo() << "wut";
         return false;
     }
 }

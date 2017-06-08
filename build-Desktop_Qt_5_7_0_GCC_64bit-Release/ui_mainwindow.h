@@ -202,9 +202,9 @@ public:
         ruleLabel->setText(QApplication::translate("MainWindow", "Regla", 0));
         ruleLineEdit->setText(QApplication::translate("MainWindow", "B3/S23", 0));
         widthLabel->setText(QApplication::translate("MainWindow", "Ancho", 0));
-        widthLineEdit->setText(QApplication::translate("MainWindow", "100", 0));
+        widthLineEdit->setText(QApplication::translate("MainWindow", "400", 0));
         heightLabel->setText(QApplication::translate("MainWindow", "Altura", 0));
-        heightLineEdit->setText(QApplication::translate("MainWindow", "100", 0));
+        heightLineEdit->setText(QApplication::translate("MainWindow", "400", 0));
         percentLabel->setText(QApplication::translate("MainWindow", "Porcentaje 1's", 0));
         percentLineEdit->setText(QApplication::translate("MainWindow", "50", 0));
         taoLabel->setText(QApplication::translate("MainWindow", "Tao", 0));

@@ -14,6 +14,7 @@ public:
 
     int getDelay(){ return m_nDelay; }
 
+    void setCell(uint, uint, bool);
     void setDelay(int d){ m_nDelay = d; }
 
 signals:
