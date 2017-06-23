@@ -19,6 +19,8 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QStatusBar>
@@ -29,6 +31,8 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
+    QAction *actionAcerca_de;
+    QAction *actionAcerca_de_Qt;
     QWidget *centralWidget;
     QWidget *formLayoutWidget;
     QFormLayout *formLayout;
@@ -50,15 +54,21 @@ public:
     QPushButton *playPushButton;
     QSlider *delayHorizontalSlider;
     QStatusBar *statusBar;
+    QMenuBar *menuBar;
+    QMenu *menuAyuda;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(301, 341);
+        MainWindow->resize(301, 370);
         QFont font;
         font.setPointSize(12);
         MainWindow->setFont(font);
+        actionAcerca_de = new QAction(MainWindow);
+        actionAcerca_de->setObjectName(QStringLiteral("actionAcerca_de"));
+        actionAcerca_de_Qt = new QAction(MainWindow);
+        actionAcerca_de_Qt->setObjectName(QStringLiteral("actionAcerca_de_Qt"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         formLayoutWidget = new QWidget(centralWidget);
@@ -180,6 +190,12 @@ public:
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MainWindow->setStatusBar(statusBar);
+        menuBar = new QMenuBar(MainWindow);
+        menuBar->setObjectName(QStringLiteral("menuBar"));
+        menuBar->setGeometry(QRect(0, 0, 301, 24));
+        menuAyuda = new QMenu(menuBar);
+        menuAyuda->setObjectName(QStringLiteral("menuAyuda"));
+        MainWindow->setMenuBar(menuBar);
         QWidget::setTabOrder(ruleLineEdit, widthLineEdit);
         QWidget::setTabOrder(widthLineEdit, heightLineEdit);
         QWidget::setTabOrder(heightLineEdit, taoLineEdit);
@@ -191,6 +207,10 @@ public:
         QWidget::setTabOrder(pausePushButton, playPushButton);
         QWidget::setTabOrder(playPushButton, delayHorizontalSlider);
 
+        menuBar->addAction(menuAyuda->menuAction());
+        menuAyuda->addAction(actionAcerca_de);
+        menuAyuda->addAction(actionAcerca_de_Qt);
+
         retranslateUi(MainWindow);
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -199,6 +219,8 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Game of Life", 0));
+        actionAcerca_de->setText(QApplication::translate("MainWindow", "Acerca de", 0));
+        actionAcerca_de_Qt->setText(QApplication::translate("MainWindow", "Acerca de Qt", 0));
         ruleLabel->setText(QApplication::translate("MainWindow", "Regla", 0));
         ruleLineEdit->setText(QApplication::translate("MainWindow", "B3/S23", 0));
         widthLabel->setText(QApplication::translate("MainWindow", "Ancho", 0));
@@ -219,6 +241,7 @@ public:
         stopPushButton->setText(QString());
         pausePushButton->setText(QString());
         playPushButton->setText(QString());
+        menuAyuda->setTitle(QApplication::translate("MainWindow", "Ayuda", 0));
     } // retranslateUi
 
 };

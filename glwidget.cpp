@@ -27,7 +27,6 @@ GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent){
 }
 
 GLWidget::~GLWidget(){
-    qInfo() << "GLWidget Destructor begin";
     while( !children().isEmpty() )
         delete children()[0];
 
@@ -51,7 +50,6 @@ GLWidget::~GLWidget(){
             m_Work = NULL;
         }
     }
-    qInfo() << "GLWidget Destructor end";
 }
 
 void GLWidget::setRule(QString r){
@@ -172,7 +170,6 @@ void GLWidget::initializeGL(){
 }
 
 void GLWidget::resizeGL(int w, int h){
-    qInfo() << w << "," << h;
     double hp = w*m_nHeight / ((double)m_nWidth);
 
     if( hp <= h ){

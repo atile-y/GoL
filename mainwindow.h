@@ -22,6 +22,7 @@ protected:
     void closeEvent(QCloseEvent *);
 
 private slots:
+    void on_actionAcerca_de_triggered();
     void on_ruleLineEdit_editingFinished();
     void on_widthLineEdit_editingFinished();
     void on_heightLineEdit_editingFinished();

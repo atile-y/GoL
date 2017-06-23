@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>301</width>
-    <height>341</height>
+    <height>370</height>
    </rect>
   </property>
   <property name="font">
@@ -266,6 +266,34 @@
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>301</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuAyuda">
+    <property name="title">
+     <string>Ayuda</string>
+    </property>
+    <addaction name="actionAcerca_de"/>
+    <addaction name="actionAcerca_de_Qt"/>
+   </widget>
+   <addaction name="menuAyuda"/>
+  </widget>
+  <action name="actionAcerca_de">
+   <property name="text">
+    <string>Acerca de</string>
+   </property>
+  </action>
+  <action name="actionAcerca_de_Qt">
+   <property name="text">
+    <string>Acerca de Qt</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>

@@ -9,7 +9,6 @@
 using namespace std;
 
 Worker::Worker(uint *r, uint w, uint h, uint t, Function f, double p){
-    qInfo() << "Worker constructor begin";
     for(int i=0;i<4;i++)
         m_nRule[i] = r[i];
     m_nWidth = w;
@@ -26,19 +25,6 @@ Worker::Worker(uint *r, uint w, uint h, uint t, Function f, double p){
     }
     m_vMatrix.append(a);
 
-    /*
-     * ESTATICO
-    int x = m_nWidth/2;
-    int y = m_nHeight/2;
-    m_vMatrix.at(0)[y][x] = true;
-    m_vMatrix.at(0)[y][x-1] = true;
-    m_vMatrix.at(0)[y][x+1] = true;
-    m_vMatrix.at(0)[y+2][x] = true;
-    //*/
-
-    /*
-     * RANDOM
-     * */
     unsigned seed = chrono::system_clock::now().time_since_epoch().count();
     default_random_engine generator(seed);
     uniform_int_distribution<uint> distJ(0, m_nWidth-1);
@@ -58,22 +44,9 @@ Worker::Worker(uint *r, uint w, uint h, uint t, Function f, double p){
         while( m_vMatrix.at(0)[i][j] );
         m_vMatrix.at(0)[i][j] = true;
     }
-    //*/
-
-    qInfo() << "Worker constructor end";
-    /*
-     * IMPRIME
-    for(uint i=0;i<m_nHeight;i++){
-        QString str = "";
-        for(uint j=0;j<m_nWidth;j++)
-            str += (m_vMatrix.at(0)[i][j]?"1":"0");
-        qInfo() << str;
-    }
-    //*/
 }
 
 Worker::~Worker(){
-    qInfo() << "Worker destructor begin";
     for(uint t=0;t<m_nTao;t++){
         if( m_vMatrix.at(t) != NULL ){
             for(uint i=0;i<m_nHeight;i++)
@@ -82,7 +55,6 @@ Worker::~Worker(){
         }
     }
     m_vMatrix.clear();
-    qInfo() << "Worker destructor end";
 }
 
 void Worker::setCell(uint i, uint j, bool v){

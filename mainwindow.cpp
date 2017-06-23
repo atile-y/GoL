@@ -3,6 +3,7 @@
 
 #include <QCloseEvent>
 #include <QDebug>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -20,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
     gl->setTao(ui->taoLineEdit->text().toUInt());
     gl->setPercent(per);
 
+    connect(ui->actionAcerca_de_Qt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt()));
+
     setFixedSize(geometry().width(), geometry().height());
     move(100, 100);
 
@@ -29,16 +32,44 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 MainWindow::~MainWindow(){
-    qInfo() << "MainWindow destructor begin";
     delete ui;
     delete gl;
-    qInfo() << "MainWindow destructor end";
 }
 
 void MainWindow::closeEvent(QCloseEvent *event){
     gl->reset();
     gl->close();
     event->accept();
+}
+
+void MainWindow::on_actionAcerca_de_triggered(){
+    QString str;
+    str =   "<h3 style=\"text-align: center\"><b>Instituto Politécnico Nacional</b></h3>"
+            "<h3 style=\"text-align: center\"><b>Escuela Superior de Cómputo</b></h3>"
+            "<table style=\"margin: 25px 30px 25px 0px\">"
+                "<tr>"
+                    "<td style=\"padding-right: 20px\">Unidad de Aprendizaje:</td>"
+                    "<td><b>Sistemas Complejos</b></td>"
+                "</tr>"
+                "<tr>"
+                    "<td>Grupo:</td>"
+                    "<td><b>3CM5</b></td>"
+                "</tr>"
+                "<tr>"
+                    "<td>Periodo:</td>"
+                    "<td><b>2017/2</b></td>"
+                "</tr>"
+                "<tr>"
+                    "<td>Desarrollado por:</td>"
+                    "<td><b>Alejandro Alberto Yescas Benítez</b></td>"
+                "</tr>"
+                "<tr>"
+                    "<td>Correo:</td>"
+                    "<td><b>alex.yescas.b@gmail.com</b></td>"
+                "</tr>"
+            "</table>";
+
+    QMessageBox::about(this, tr("Acerca de"), str);
 }
 
 void MainWindow::on_ruleLineEdit_editingFinished(){
