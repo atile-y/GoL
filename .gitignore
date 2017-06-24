@@ -1,4 +1,14 @@
+# Qt Creator Project file
 
-# Qt User Files
-*.user
+GoL.pro.user
+
+# Compiled Object files
+
+*.o
+*.obj
+
+# Backup files
+
+*.swp
+*.*~
 
