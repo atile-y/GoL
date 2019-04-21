@@ -12,3 +12,8 @@ GoL.pro.user
 *.swp
 *.*~
 
+# Qt Build Folder
+
+build-Desktop_Qt_5_9_1_GCC_64bit-Release/
+build-Desktop_Qt_5_7_0_GCC_64bit-Release/
+

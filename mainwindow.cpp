@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QCloseEvent>
+#include <QRegExpValidator>
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
